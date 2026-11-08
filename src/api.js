@@ -7,7 +7,7 @@ async function request(path, options = {}) {
   let data = null;
   try { data = text ? JSON.parse(text) : null; } catch { data = text; }
   if (!res.ok) {
-    const msg = (data && (data.message || data.error)) || (typeof data === "string" && data) || `Request failed (${res.status})`;
+    const msg = (data && (data.message || data.error)) || (typeof data === "string" && data) || Request failed (\);
     throw new Error(msg);
   }
   return data;
@@ -20,17 +20,9 @@ export const registerUser = (username, password, role) =>
     body: JSON.stringify({ username, password, role }),
   });
 
-// NOTE: the multipart field name is assumed to be "file". Ask backend if it differs.
-export const uploadDocument = (userId, file) => {
-  const form = new FormData();
-  form.append("file", file);
-  return request(`/api/documents/upload/${userId}`, { method: "POST", body: form });
-};
-
-// NOTE: body shape assumed to be { status: "APPROVED" | "REJECTED" }. Confirm with backend.
-export const updateStatus = (id, status) =>
-  request(`/api/documents/${id}/status`, {
-    method: "PUT",
+export const uploadDocument = (userId, payload) =>
+  request(/api/documents/upload/\, {
+    method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status }),
+    body: JSON.stringify(payload),
   });
